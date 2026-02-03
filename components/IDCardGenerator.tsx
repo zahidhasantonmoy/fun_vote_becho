@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Download, Upload, RefreshCw } from "lucide-react";
+import QRCode from "qrcode";
 
 export default function IDCardGenerator() {
     const [name, setName] = useState("");
