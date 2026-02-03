@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Vote, Menu, X, Lightbulb, LightbulbOff } from "lucide-react";
 import Link from "next/link";
+import { playSound } from "@/utils/sound";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -19,6 +20,7 @@ export default function Navbar() {
         // Fun flicker effect logic could go here, but for now simple toggle
         setIsLoadShedding(!isLoadShedding);
         document.documentElement.classList.toggle("dark");
+        playSound("click");
     };
 
     const navLinks = [
