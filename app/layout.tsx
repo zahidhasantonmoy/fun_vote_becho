@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Hind_Siliguri } from "next/font/google";
+import { Baloo_Da_2 } from "next/font/google";
 import "./globals.css";
 
-const hindSiliguri = Hind_Siliguri({
+const balooDa2 = Baloo_Da_2({
   subsets: ["bengali"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-hind-siliguri",
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-baloo-da-2",
 });
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="bn">
       <body
-        className={`${hindSiliguri.variable} font-sans antialiased bg-background text-foreground`}
+        className={`${balooDa2.variable} font-sans antialiased bg-background text-foreground`}
       >
         {children}
       </body>
