@@ -1,3 +1,4 @@
+"use client";
 
 import { Wallet, TrendingUp } from "lucide-react";
 
@@ -21,12 +22,18 @@ export default function Hero() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
-                    <button className="flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-lg hover:shadow-xl hover:scale-105">
+                    <button
+                        onClick={() => document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' })}
+                        className="flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-lg hover:shadow-xl hover:scale-105"
+                    >
                         <Wallet className="h-5 w-5" />
                         ভোট কিনবো
                     </button>
 
-                    <button className="flex items-center justify-center gap-2 bg-secondary hover:bg-secondary-hover text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-lg hover:shadow-xl hover:scale-105">
+                    <button
+                        onClick={() => document.getElementById('calculator')?.scrollIntoView({ behavior: 'smooth' })}
+                        className="flex items-center justify-center gap-2 bg-secondary hover:bg-secondary-hover text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-lg hover:shadow-xl hover:scale-105"
+                    >
                         <TrendingUp className="h-5 w-5" />
                         ভোট বেচবো
                     </button>
