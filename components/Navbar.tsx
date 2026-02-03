@@ -71,9 +71,11 @@ export default function Navbar() {
 
                     {/* CTA Button */}
                     <div className="hidden md:block ml-4">
-                        <button className="bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg font-bold transition-all shadow-md hover:shadow-lg">
-                            ভোট বিক্রি করুন
-                        </button>
+                        <Link href="/#calculator">
+                            <button className="bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg font-bold transition-all shadow-md hover:shadow-lg">
+                                ভোট বিক্রি করুন
+                            </button>
+                        </Link>
                     </div>
 
                     {/* Mobile menu button */}
@@ -114,9 +116,11 @@ export default function Navbar() {
                             {isLoadShedding ? "লোডশেডিং অফ করুন" : "লোডশেডিং অন করুন"}
                         </button>
                         <div className="mt-4">
-                            <button className="w-full bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg font-bold transition-all">
-                                ভোট বিক্রি করুন
-                            </button>
+                            <Link href="/#calculator" onClick={() => setIsOpen(false)}>
+                                <button className="w-full bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg font-bold transition-all">
+                                    ভোট বিক্রি করুন
+                                </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
