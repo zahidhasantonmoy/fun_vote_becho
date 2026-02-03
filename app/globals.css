@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 @theme inline {
   --font-sans: var(--font-hind-siliguri);
   --color-primary: #F42A41;
@@ -9,7 +19,8 @@
 }
 
 :root {
-  --background: #f8f9fa; /* Light mode bg slightly off-white */
+  --background: #f8f9fa;
+  /* Light mode bg slightly off-white */
   --foreground: #171717;
 }
 

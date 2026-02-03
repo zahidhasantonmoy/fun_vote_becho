@@ -1,11 +1,25 @@
 "use client";
 
-import { useState } from "react";
-import { Vote, Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Vote, Menu, X, Lightbulb, LightbulbOff } from "lucide-react";
 import Link from "next/link";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
+    const [isLoadShedding, setIsLoadShedding] = useState(false);
+
+    useEffect(() => {
+        // Check system preference initially
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            setIsLoadShedding(true);
+        }
+    }, []);
+
+    const toggleLoadShedding = () => {
+        // Fun flicker effect logic could go here, but for now simple toggle
+        setIsLoadShedding(!isLoadShedding);
+        document.documentElement.classList.toggle("dark");
+    };
 
     const navLinks = [
         { title: "হোম", href: "#" },
@@ -41,8 +55,19 @@ export default function Navbar() {
                         </div>
                     </div>
 
+                    {/* Load Shedding Toggle (Desktop) */}
+                    <div className="hidden md:flex items-center ml-4">
+                        <button
+                            onClick={toggleLoadShedding}
+                            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-all text-yellow-500 dark:text-gray-400"
+                            title={isLoadShedding ? "লোডশেডিং চলছে (Dark Mode)" : "বিদ্যুৎ আছে (Light Mode)"}
+                        >
+                            {isLoadShedding ? <LightbulbOff className="h-6 w-6" /> : <Lightbulb className="h-6 w-6" />}
+                        </button>
+                    </div>
+
                     {/* CTA Button */}
-                    <div className="hidden md:block">
+                    <div className="hidden md:block ml-4">
                         <button className="bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg font-bold transition-all shadow-md hover:shadow-lg">
                             ভোট বিক্রি করুন
                         </button>
@@ -74,6 +99,17 @@ export default function Navbar() {
                                 {link.title}
                             </Link>
                         ))}
+
+                        <button
+                            onClick={() => {
+                                toggleLoadShedding();
+                                setIsOpen(false);
+                            }}
+                            className="w-full text-left px-3 py-2 flex items-center gap-2 text-base font-medium hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800"
+                        >
+                            {isLoadShedding ? <LightbulbOff className="h-5 w-5" /> : <Lightbulb className="h-5 w-5" />}
+                            {isLoadShedding ? "লোডশেডিং অফ করুন" : "লোডশেডিং অন করুন"}
+                        </button>
                         <div className="mt-4">
                             <button className="w-full bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg font-bold transition-all">
                                 ভোট বিক্রি করুন
