@@ -10,10 +10,12 @@ export default function Footer() {
                     <p className="text-gray-400 text-sm">ডিজিটাল বাংলাদেশের ডিজিটাল ভোট হাট</p>
                 </div>
 
-                <div className="max-w-2xl mx-auto p-4 bg-red-900/20 border border-red-900/50 rounded-lg">
-                    <p className="text-red-400 font-bold">
-                        সতর্কতা: এই ওয়েবসাইটটি শুধুমাত্র বিনোদনের জন্য তৈরি। ভোট কেনা-বেচা একটি দণ্ডনীয় অপরাধ এবং আমরা একে নিরুৎসাহিত করি।
-                    </p>
+                <div className="max-w-2xl mx-auto p-4 bg-red-900/20 border border-red-900/50 rounded-lg hover:bg-red-900/30 transition-colors cursor-pointer">
+                    <Link href="/disclaimer" className="block">
+                        <p className="text-red-400 font-bold hover:underline">
+                            সতর্কতা: এই ওয়েবসাইটটি শুধুমাত্র বিনোদনের জন্য তৈরি। বিস্তারিত জানতে এখানে ক্লিক করুন (Disclaimer)।
+                        </p>
+                    </Link>
                 </div>
 
                 {/* Real Visit Counter */}
