@@ -1,12 +1,5 @@
 import type { Metadata } from "next";
-import { Baloo_Da_2 } from "next/font/google";
 import "./globals.css";
-
-const balooDa2 = Baloo_Da_2({
-  subsets: ["bengali"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-baloo-da-2",
-});
 
 export const metadata: Metadata = {
   title: "ভোট-বেচো ডট কম | VoteBecho",
@@ -20,8 +13,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="bn">
+      <head>
+        <link href="https://banglawebfonts.pages.dev/css/charukola.css" rel="stylesheet" />
+      </head>
       <body
-        className={`${balooDa2.variable} font-sans antialiased bg-background text-foreground`}
+        className={`font-sans antialiased bg-background text-foreground`}
       >
         {children}
       </body>
