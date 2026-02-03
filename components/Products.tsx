@@ -61,7 +61,10 @@ export default function Products() {
                                     {product.desc}
                                 </p>
 
-                                <button className="w-full mt-auto flex items-center justify-center gap-2 bg-gray-900 dark:bg-white text-white dark:text-black py-3 rounded-lg font-bold hover:opacity-90 transition-opacity active:scale-95">
+                                <button
+                                    onClick={() => alert(`"${product.title}" কার্টে যোগ করা হয়েছে! (কিন্তু টাকা ছাড়া চেকআউট হবে না ভাই) 🤣`)}
+                                    className="w-full mt-auto flex items-center justify-center gap-2 bg-gray-900 dark:bg-white text-white dark:text-black py-3 rounded-lg font-bold hover:opacity-90 transition-opacity active:scale-95"
+                                >
                                     <ShoppingCart className="h-4 w-4" />
                                     কার্টে যোগ করুন
                                 </button>

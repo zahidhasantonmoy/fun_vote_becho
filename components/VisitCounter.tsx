@@ -7,12 +7,21 @@ export default function VisitCounter() {
     const [visits, setVisits] = useState<number | null>(null);
 
     useEffect(() => {
-        // Using countapi.xyz for a simple serverless counter
-        // Namespace: vote-becho-prod (unique enough), Key: visits
-        fetch("https://api.countapi.xyz/hit/vote-becho-prod/visits")
-            .then((res) => res.json())
-            .then((data) => setVisits(data.value))
-            .catch((err) => console.error("Counter error:", err));
+        // Switching to counterapi.dev as countapi.xyz might be unstable/blocked
+        const fetchVisits = async () => {
+            try {
+                const res = await fetch("https://api.counterapi.dev/v1/vote-becho/visits/up");
+                if (!res.ok) throw new Error("Network response was not ok");
+                const data = await res.json();
+                setVisits(data.count);
+            } catch (err) {
+                // Fail silently or show fallback to avoid console spam for user
+                console.warn("Visit counter failed to load (likely ad-blocker):", err);
+                setVisits(420); // Fallback satire number
+            }
+        };
+
+        fetchVisits();
     }, []);
 
     return (
