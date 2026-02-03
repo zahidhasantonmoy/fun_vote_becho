@@ -47,9 +47,8 @@ export default function Home() {
 
       <div className="space-y-0 divide-y divide-gray-200 dark:divide-gray-800">
         <MotionWrapper><Products /></MotionWrapper>
-        <MotionWrapper><SyndicateTycoon /></MotionWrapper>
+        <MotionWrapper><IDCardGenerator /></MotionWrapper>
         <MotionWrapper><BhashonGenerator /></MotionWrapper>
-        <MotionWrapper><RaterVote /></MotionWrapper>
         <MotionWrapper><SpinWheel /></MotionWrapper>
         <MotionWrapper><MoneyWhitener /></MotionWrapper>
         <MotionWrapper><TorkoRoom /></MotionWrapper>
@@ -57,12 +56,8 @@ export default function Home() {
         <MotionWrapper><CandidateCompare /></MotionWrapper>
         <MotionWrapper><ChadaGoals /></MotionWrapper>
         <MotionWrapper><Calculator /></MotionWrapper>
-        <MotionWrapper><VvipProtocol /></MotionWrapper>
-        <MotionWrapper><KursiGame /></MotionWrapper>
-        <MotionWrapper><PoltiGame /></MotionWrapper>
         <MotionWrapper><Testimonials /></MotionWrapper>
         <MotionWrapper><GoyebService /></MotionWrapper>
-        <MotionWrapper><IDCardGenerator /></MotionWrapper>
         <MotionWrapper><ComplaintBox /></MotionWrapper>
       </div>
 

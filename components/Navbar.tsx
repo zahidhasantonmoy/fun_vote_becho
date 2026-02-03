@@ -24,10 +24,11 @@ export default function Navbar() {
     };
 
     const navLinks = [
-        { title: "হোম", href: "#hero" }, // Changed to #hero for better UX
-        { title: "প্যাকেজ সমূহ", href: "#packages" },
-        { title: "দাম যাচাই", href: "#calculator" },
-        { title: "আইডি কার্ড", href: "#id-card" },
+        { title: "হোম", href: "/" },
+        { title: "গেমস", href: "/games" }, // New Separated Page
+        { title: "প্যাকেজ সমূহ", href: "/#packages" },
+        { title: "দাম যাচাই", href: "/#calculator" },
+        { title: "আইডি কার্ড", href: "/#id-card" },
     ];
 
     return (
