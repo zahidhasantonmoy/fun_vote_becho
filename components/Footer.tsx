@@ -1,4 +1,4 @@
-
+import Link from "next/link";
 import VisitCounter from "@/components/VisitCounter";
 
 export default function Footer() {
