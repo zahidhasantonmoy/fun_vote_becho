@@ -57,19 +57,34 @@ export default function IDCardGenerator() {
         }
 
         try {
-            // 1. Load all assets first
-            const bgImg = await loadImage("/id_card_bg_v2.png");
-            const qrImg = await loadImage("/mock_qr_code.png"); // Mock QR
+            // 1. Generate QR Code Data URL locally
+            const qrDataUrl = await QRCode.toDataURL("https://vote-becho.vercel.app/", { margin: 1, width: 100 });
+
+            // 2. Load all assets
+            // Use try-catch for individual images to prevent total failure
+            const loadAsset = async (src: string) => {
+                try {
+                    return await loadImage(src);
+                } catch (e) {
+                    console.error("Failed to load:", src);
+                    return null;
+                }
+            };
+
+            const bgImg = await loadAsset("/id_card_bg_v2.png");
             let userImg: HTMLImageElement | null = null;
             if (image) {
-                userImg = await loadImage(image);
+                userImg = await loadAsset(image);
             }
+            const qrImg = await loadAsset(qrDataUrl);
 
-            // 2. Clear & Draw Background
+            if (!bgImg) throw new Error("Background image failed to load");
+
+            // 3. Clear & Draw Background
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
 
-            // 3. Draw Header
+            // 4. Draw Header
             ctx.textAlign = "center";
 
             // Header Text Shadow
@@ -82,7 +97,7 @@ export default function IDCardGenerator() {
             ctx.fillStyle = "#006A4E";
             ctx.fillText("VOTE BECHO AUTHORITY", canvas.width / 2, 55);
 
-            ctx.shadowBlur = 0; // Reset shadow
+            ctx.shadowBlur = 0;
             ctx.shadowOffsetX = 0;
             ctx.shadowOffsetY = 0;
 
@@ -98,7 +113,7 @@ export default function IDCardGenerator() {
             ctx.strokeStyle = "#F42A41";
             ctx.stroke();
 
-            // 4. Draw User Image
+            // 5. Draw User Image
             const imgX = 100;
             const imgY = 120;
             const imgSize = 150;
@@ -125,7 +140,7 @@ export default function IDCardGenerator() {
             ctx.strokeStyle = "#333";
             ctx.stroke();
 
-            // 5. Draw Text Details
+            // 6. Draw Text Details
             ctx.fillStyle = "#000";
             ctx.font = "bold 28px sans-serif";
             ctx.fillText(name || "নাম লিখুন", canvas.width / 2, 310);
@@ -144,7 +159,7 @@ export default function IDCardGenerator() {
             ctx.shadowBlur = 6;
             ctx.shadowOffsetY = 3;
 
-            ctx.fillStyle = "#D62828"; // Deep Red
+            ctx.fillStyle = "#D62828";
             roundedRect(ctx, badgeX, badgeY, badgeW, badgeH, 20);
             ctx.fill();
 
@@ -161,21 +176,16 @@ export default function IDCardGenerator() {
             ctx.fillStyle = "#666";
             ctx.fillText("Expiry: আজীবন (Until Caught)", canvas.width / 2, 425);
 
-            // 6. QR Code Area
-            ctx.fillStyle = "#fff";
-            ctx.fillRect(canvas.width - 80, canvas.height - 80, 60, 60); // QR BG
-            ctx.drawImage(qrImg, canvas.width - 75, canvas.height - 75, 50, 50);
+            // 7. QR Code Area (Real)
+            if (qrImg) {
+                ctx.fillStyle = "#fff";
+                ctx.fillRect(canvas.width - 80, canvas.height - 80, 60, 60);
+                ctx.drawImage(qrImg, canvas.width - 75, canvas.height - 75, 50, 50);
+            }
 
-            // Signature area
-            ctx.font = "italic 12px serif";
-            ctx.fillStyle = "#000";
-            ctx.textAlign = "left";
-            ctx.fillText("Authorized Signature:", 20, canvas.height - 30);
-            ctx.font = "italic bold 16px cursive";
-            ctx.fillStyle = "#006A4E";
-            ctx.fillText("Sheikh Hasina (Fake)", 20, canvas.height - 15);
+            // REMOVED SIGNATURE AS REQUESTED
 
-            // 7. Trigger Download
+            // 8. Trigger Download
             const link = document.createElement('a');
             link.download = `VoteBecho_ID_${randomId}.png`;
             link.href = canvas.toDataURL("image/png", 1.0);
@@ -183,7 +193,7 @@ export default function IDCardGenerator() {
 
         } catch (err) {
             console.error("ID Generation Failed:", err);
-            alert("আইডি কার্ড প্রিন্ট করতে সমস্যা হচ্ছে। আবার চেষ্টা করুন!");
+            alert("আইডি কার্ড জেনারেট করতে সমস্যা হচ্ছে। দয়া করে পেজটি রিফ্রেশ দিন।");
         } finally {
             setIsGenerating(false);
         }
@@ -207,7 +217,7 @@ export default function IDCardGenerator() {
         <section className="py-20 bg-background border-t border-gray-100 dark:border-gray-800">
             <div className="max-w-4xl mx-auto px-4 text-center">
                 <h2 className="text-3xl font-bold mb-4">অফিসিয়াল কার্ড জেনারেটর (ভি২)</h2>
-                <p className="text-gray-500 mb-12">এখন কিউআর কোড (QR Code) সহ! ১০০% ভুয়া কিন্তু দেখতে আসল।</p>
+                <p className="text-gray-500 mb-12">এখন কিউআর কোড (QR Code) সহ! স্ক্যান করলেই ধরা।</p>
 
                 <div className="flex flex-col md:flex-row gap-8 items-center justify-center">
 
@@ -256,7 +266,7 @@ export default function IDCardGenerator() {
                         </button>
                     </div>
 
-                    {/* Preview View (Visual only) */}
+                    {/* Preview View (Syncing with Canvas) */}
                     <div className="w-full max-w-sm">
                         <div className="relative w-[350px] h-[500px] mx-auto bg-[url('/id_card_bg_v2.png')] bg-cover bg-center rounded-xl shadow-2xl overflow-hidden text-center select-none transform hover:scale-[1.02] transition-transform duration-300">
 
@@ -298,13 +308,13 @@ export default function IDCardGenerator() {
                             </div>
 
                             {/* Footer Elements */}
-                            <div className="absolute bottom-[15px] left-[20px] text-left">
-                                <p className="font-serif italic text-[10px]">Authorized Signature:</p>
-                                <p className="font-[cursive] text-[#006A4E] text-[14px] font-bold">Sheikh Hasina (Fake)</p>
+                            <div className="absolute bottom-[20px] right-[20px] bg-white p-1 rounded border border-gray-300">
+                                {/* QR Code Placeholder for Preview - Real is drawn in Canvas */}
+                                <img src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://vote-becho.vercel.app/`} alt="QR" className="w-[60px] h-[60px]" />
                             </div>
 
-                            <div className="absolute bottom-[15px] right-[15px] bg-white p-1 rounded">
-                                <img src="/mock_qr_code.png" alt="QR" className="w-[50px] h-[50px]" />
+                            <div className="absolute bottom-[20px] left-[20px] text-xs text-gray-400 italic">
+                                *Scan to Verify*
                             </div>
                         </div>
 
@@ -317,7 +327,7 @@ export default function IDCardGenerator() {
                             {isGenerating ? "প্রিন্ট করা হচ্ছে..." : "ডাউনলোড (HD)"}
                         </button>
 
-                        {/* Hidden Canvas - High Resolution */}
+                        {/* Hidden Canvas */}
                         <canvas ref={canvasRef} width={350} height={500} className="hidden" />
                     </div>
 
