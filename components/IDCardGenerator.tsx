@@ -35,103 +35,159 @@ export default function IDCardGenerator() {
         // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw Background
+        // Load Background
         const bgImg = new Image();
-        bgImg.src = "/id_card_bg.png";
+        bgImg.src = "/id_card_bg_v2.png";
         bgImg.onload = () => {
+            // Draw Background
             ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
 
-            // Draw Header
+            // Header Border
             ctx.beginPath();
-            ctx.moveTo(0, 80);
-            ctx.lineTo(canvas.width, 80);
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = "#006A4E"; // Secondary Green
+            ctx.moveTo(20, 90);
+            ctx.lineTo(canvas.width - 20, 90);
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = "#F42A41"; // Red Divider
             ctx.stroke();
 
-            ctx.font = "bold 20px 'Courier New'";
+            // Header Text
+            ctx.font = "bold 22px 'Courier New'";
             ctx.fillStyle = "#006A4E";
             ctx.textAlign = "center";
-            ctx.fillText("VOTE BECHO AUTHORITY", canvas.width / 2, 40);
+            ctx.shadowColor = "rgba(0,0,0,0.1)";
+            ctx.shadowBlur = 2;
+            ctx.fillText("VOTE BECHO AUTHORITY", canvas.width / 2, 50);
 
-            ctx.font = "12px sans-serif";
-            ctx.fillStyle = "#666";
-            ctx.fillText("Ministry of Fraud & Fun", canvas.width / 2, 65);
+            ctx.font = "italic 14px sans-serif";
+            ctx.fillStyle = "#333";
+            ctx.shadowBlur = 0;
+            ctx.fillText("Ministry of Fraud & Fun", canvas.width / 2, 75);
 
-            // Draw User Image
+            // Draw User Image OR Placeholder
             if (image) {
                 const userImg = new Image();
                 userImg.src = image;
                 userImg.onload = () => {
-                    ctx.save();
-                    ctx.beginPath();
-                    ctx.rect(100, 100, 150, 150);
-                    ctx.strokeStyle = "#999";
-                    ctx.lineWidth = 5;
-                    ctx.stroke();
-                    ctx.clip();
-                    ctx.drawImage(userImg, 100, 100, 150, 150);
-                    ctx.restore();
-                    drawText(ctx);
+                    drawUserImage(ctx, userImg);
+                    drawTextContent(ctx);
+                    downloadCanvas(canvas);
                 };
             } else {
-                // Placeholder rectangle
-                ctx.fillStyle = "#ddd";
-                ctx.fillRect(100, 100, 150, 150);
-                ctx.strokeStyle = "#999";
-                ctx.lineWidth = 2;
-                ctx.strokeRect(100, 100, 150, 150);
-                ctx.fillStyle = "#999";
-                ctx.font = "14px sans-serif";
-                ctx.fillText("NO PHOTO", 175, 180);
-                drawText(ctx);
+                drawPlaceholderImage(ctx);
+                drawTextContent(ctx);
+                downloadCanvas(canvas);
             }
         };
+    };
 
-        const drawText = (ctx: CanvasRenderingContext2D) => {
-            // Name
-            ctx.font = "bold 24px sans-serif";
-            ctx.fillStyle = "#000";
-            ctx.textAlign = "center";
-            ctx.fillText(name || "নাম লিখুন", canvas.width / 2, 300);
+    const drawUserImage = (ctx: CanvasRenderingContext2D, img: HTMLImageElement) => {
+        ctx.save();
+        // Round rect clipping for image
+        roundedRect(ctx, 100, 110, 150, 150, 10);
+        ctx.clip();
+        ctx.drawImage(img, 100, 110, 150, 150);
+        ctx.restore();
 
-            // Title Badge
-            const titleText = title;
-            ctx.font = "bold 16px sans-serif";
-            const textMetrics = ctx.measureText(titleText);
-            const badgeWidth = textMetrics.width + 20;
+        // Border
+        ctx.strokeStyle = "#333";
+        ctx.lineWidth = 4;
+        roundedRect(ctx, 100, 110, 150, 150, 10);
+        ctx.stroke();
+    };
 
-            ctx.fillStyle = "#F42A41"; // Primary Red
-            ctx.fillRect((canvas.width / 2) - (badgeWidth / 2), 320, badgeWidth, 30);
+    const drawPlaceholderImage = (ctx: CanvasRenderingContext2D) => {
+        ctx.fillStyle = "#e5e7eb";
+        roundedRect(ctx, 100, 110, 150, 150, 10);
+        ctx.fill();
+        ctx.strokeStyle = "#9ca3af";
+        ctx.lineWidth = 2;
+        roundedRect(ctx, 100, 110, 150, 150, 10);
+        ctx.stroke();
 
-            ctx.fillStyle = "#fff";
-            ctx.fillText(titleText, canvas.width / 2, 340);
+        ctx.fillStyle = "#9ca3af";
+        ctx.font = "bold 16px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("NO PHOTO", 175, 190);
+    };
 
-            // Details
-            ctx.fillStyle = "#000";
-            ctx.font = "16px sans-serif";
-            ctx.fillText(`ID: ${randomId}`, canvas.width / 2, 380);
-            ctx.fillText("Exp: আজীবন", canvas.width / 2, 405);
+    const drawTextContent = (ctx: CanvasRenderingContext2D) => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
 
-            // Barcode (Mock)
-            ctx.fillStyle = "#000";
-            ctx.fillRect(50, 440, 250, 30);
+        // Name
+        ctx.font = "bold 26px sans-serif";
+        ctx.fillStyle = "#000";
+        ctx.textAlign = "center";
+        ctx.fillText(name || "নাম লিখুন", canvas.width / 2, 300);
 
-            // Trigger Download
-            setTimeout(() => {
-                const link = document.createElement('a');
-                link.download = `vote-becho-id-${randomId}.png`;
-                link.href = canvas.toDataURL();
-                link.click();
-            }, 500); // Small delay to ensure render
-        };
+        // Title Badge
+        const titleText = title;
+        ctx.font = "bold 18px sans-serif";
+
+        // Badge Background
+        const textMetrics = ctx.measureText(titleText);
+        const badgeWidth = textMetrics.width + 40;
+        const badgeHeight = 36;
+        const badgeX = (canvas.width / 2) - (badgeWidth / 2);
+        const badgeY = 320;
+
+        ctx.fillStyle = "#F42A41"; // Primary Red
+        roundedRect(ctx, badgeX, badgeY, badgeWidth, badgeHeight, 20);
+        ctx.fill();
+
+        // Badge Text
+        ctx.fillStyle = "#fff";
+        ctx.textBaseline = "middle";
+        ctx.fillText(titleText, canvas.width / 2, badgeY + (badgeHeight / 2) + 2); // Center vertically
+        ctx.textBaseline = "alphabetic"; // Reset
+
+        // Details
+        ctx.fillStyle = "#000";
+        ctx.font = "bold 18px Courier New";
+        ctx.fillText(`ID: ${randomId}`, canvas.width / 2, 390);
+        ctx.fillText("Exp: আজীবন", canvas.width / 2, 415);
+
+        // Bottom Barcode Stripe
+        ctx.fillStyle = "rgba(0,0,0,0.8)";
+        ctx.fillRect(0, 460, canvas.width, 40);
+
+        // Fake Barcode Lines
+        ctx.fillStyle = "#fff";
+        for (let i = 0; i < canvas.width; i += Math.random() * 10 + 2) {
+            ctx.fillRect(i, 460, Math.random() * 4, 40);
+        }
+    };
+
+    const downloadCanvas = (canvas: HTMLCanvasElement) => {
+        // Small delay to ensure everything painted
+        setTimeout(() => {
+            const link = document.createElement('a');
+            link.download = `vote-becho-id-${randomId}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }, 100);
+    };
+
+    // Helper for rounded rect
+    const roundedRect = (ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, radius: number) => {
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
     };
 
     return (
         <section className="py-20 bg-background border-t border-gray-100 dark:border-gray-800">
             <div className="max-w-4xl mx-auto px-4 text-center">
                 <h2 className="text-3xl font-bold mb-4">অফিসিয়াল কার্ড জেনারেটর</h2>
-                <p className="text-gray-500 mb-12">নিজেকে সার্টিফাইড করুন। ফেসবুকে শেয়ার করে ভাব নিন।</p>
+                <p className="text-gray-500 mb-12">নতুন ডিজাইন! আরো প্রফেশনাল, আরো ভুয়া।</p>
 
                 <div className="flex flex-col md:flex-row gap-8 items-center justify-center">
 
@@ -142,25 +198,26 @@ export default function IDCardGenerator() {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="আপনার নাম"
-                            className="w-full p-4 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent"
+                            className="w-full p-4 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent focus:ring-2 focus:ring-primary outline-none"
                         />
 
                         <select
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            className="w-full p-4 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent"
+                            className="w-full p-4 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent focus:ring-2 focus:ring-primary outline-none"
                         >
                             <option value="ভোট চোর">সার্টিফাইড ভোট চোর</option>
                             <option value="চাঁদাবাজ">প্রফেশনাল চাঁদাবাজ</option>
                             <option value="ডিজিটাল ভিখারি">ডিজিটাল ভিখারি</option>
                             <option value="পলিটিকাল ভাই">পলিটিকাল ভাই (উড়তি)</option>
+                            <option value="খাদক মন্ত্রী">খাদক মন্ত্রী</option>
                         </select>
 
                         <div
-                            className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-8 cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors"
+                            className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-8 cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors group"
                             onClick={() => fileInputRef.current?.click()}
                         >
-                            <div className="flex flex-col items-center gap-2 text-gray-500">
+                            <div className="flex flex-col items-center gap-2 text-gray-500 group-hover:text-primary transition-colors">
                                 <Upload className="h-8 w-8" />
                                 <span>ছবি আপলোড করুন</span>
                             </div>
@@ -174,47 +231,67 @@ export default function IDCardGenerator() {
                         </div>
                     </div>
 
-                    {/* ID Card Preview (DOM) */}
+                    {/* ID Card Preview (DOM) - Must align VISUALLY with Canvas logic above */}
                     <div className="w-full max-w-sm">
-                        <div className="aspect-[3/4] bg-[url('/id_card_bg.png')] bg-cover bg-center bg-no-repeat rounded-xl shadow-2xl relative overflow-hidden border border-gray-300 p-6 flex flex-col items-center text-center">
-                            {/* ID Header */}
-                            <div className="w-full border-b-2 border-green-600 pb-2 mb-4">
-                                <h3 className="uppercase font-bold text-green-700 tracking-widest text-sm">Vote Becho Authority</h3>
-                                <p className="text-[10px] text-gray-500">Ministry of Fraud & Fun</p>
+                        <div className="relative w-[350px] h-[500px] mx-auto bg-[url('/id_card_bg_v2.png')] bg-cover bg-center rounded-none shadow-2xl overflow-hidden text-center select-none"
+                            style={{ boxShadow: '0 10px 40px -10px rgba(0,0,0,0.3)' }}
+                        >
+                            {/* Header */}
+                            <div className="mt-[50px]">
+                                <h3 className="font-[Courier_New] font-bold text-[22px] text-[#006A4E] drop-shadow-sm">VOTE BECHO AUTHORITY</h3>
+                                <p className="text-[14px] italic text-[#333]">Ministry of Fraud & Fun</p>
+                                <div className="h-[3px] bg-[#F42A41] w-[310px] mx-auto mt-2"></div>
                             </div>
 
                             {/* Photo */}
-                            <div className="w-32 h-32 bg-gray-200 rounded-lg mb-4 overflow-hidden border-2 border-gray-400">
+                            <div className="mt-[20px] mx-auto w-[150px] h-[150px] relative">
                                 {image ? (
-                                    <img src={image} alt="Profile" className="w-full h-full object-cover" />
+                                    <div className="w-full h-full rounded-[10px] border-[4px] border-[#333] overflow-hidden">
+                                        <img src={image} alt="Profile" className="w-full h-full object-cover" />
+                                    </div>
                                 ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">NO PHOTO</div>
+                                    <div className="w-full h-full rounded-[10px] border-[2px] border-[#9ca3af] bg-gray-200 flex items-center justify-center text-gray-400 font-bold">
+                                        NO PHOTO
+                                    </div>
                                 )}
                             </div>
 
-                            {/* Details */}
-                            <div className="space-y-1 w-full flex-grow">
-                                <h2 className="text-xl font-bold uppercase text-black break-words">{name || "নাম লিখুন"}</h2>
-                                <div className="bg-red-600 text-white px-2 py-1 inline-block text-xs font-bold rounded uppercase tracking-wide my-2">
+                            {/* Text Content */}
+                            <div className="mt-[30px] px-4">
+                                {/* Name */}
+                                <h2 className="text-[26px] font-bold text-black leading-tight mb-2 truncate">
+                                    {name || "নাম লিখুন"}
+                                </h2>
+
+                                {/* Title Badge */}
+                                <span className="inline-block bg-[#F42A41] text-white px-5 py-2 rounded-full font-bold text-[18px] shadow-sm mb-4">
                                     {title}
+                                </span>
+
+                                {/* Details */}
+                                <div className="font-[Courier_New] font-bold text-[18px] text-black space-y-1">
+                                    <p>ID: {randomId}</p>
+                                    <p>Exp: আজীবন</p>
                                 </div>
-                                <p className="text-xs text-black mt-2">ID: {randomId}</p>
-                                <p className="text-xs text-black">Exp: আজীবন</p>
                             </div>
 
-                            {/* Barcode Mock */}
-                            <div className="w-full h-8 bg-black mt-auto opacity-80" style={{ maskImage: 'repeating-linear-gradient(90deg, black, black 2px, transparent 2px, transparent 4px)' }}></div>
+                            {/* Footer Barcode Stripe */}
+                            <div className="absolute bottom-0 left-0 w-full h-[40px] bg-black/80 flex items-center justify-center gap-1 overflow-hidden">
+                                {[...Array(40)].map((_, i) => (
+                                    <div key={i} className="bg-white h-full" style={{ width: Math.random() * 4 + 1 }}></div>
+                                ))}
+                            </div>
                         </div>
 
                         <button
                             onClick={handleDownload}
-                            className="mt-4 w-full flex items-center justify-center gap-2 text-primary font-bold hover:underline"
+                            className="mt-6 w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white py-3 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl active:scale-95"
                         >
-                            <Download className="h-4 w-4" />
-                            ডাউনলোড করুন (আসলে!)
+                            <Download className="h-5 w-5" />
+                            ফাইনাল ডাউনলোড করুন
                         </button>
 
-                        {/* Hidden Canvas for Generation */}
+                        {/* Hidden Canvas - Exactly verified dimensions */}
                         <canvas ref={canvasRef} width={350} height={500} className="hidden" />
                     </div>
 
