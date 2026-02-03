@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Vote, Menu, X, Lightbulb, LightbulbOff } from "lucide-react";
+import { Vote, Menu, X, Lightbulb, LightbulbOff, Gamepad2 } from "lucide-react";
 import Link from "next/link";
 import { playSound } from "@/utils/sound";
 
@@ -46,15 +46,22 @@ export default function Navbar() {
                     {/* Desktop Menu */}
                     <div className="hidden md:block">
                         <div className="ml-10 flex items-baseline space-x-4">
-                            {navLinks.map((link) => (
-                                <Link
-                                    key={link.title}
-                                    href={link.href}
-                                    className="px-3 py-2 rounded-md text-sm font-medium hover:text-primary transition-colors duration-200"
-                                >
-                                    {link.title}
-                                </Link>
-                            ))}
+                            {navLinks.map((link) => {
+                                const isGames = link.href === "/games";
+                                return (
+                                    <Link
+                                        key={link.title}
+                                        href={link.href}
+                                        className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-1 ${isGames
+                                            ? "bg-yellow-400 text-black font-bold hover:bg-yellow-500 hover:scale-105 shadow-sm animate-pulse"
+                                            : "hover:text-primary"
+                                            }`}
+                                    >
+                                        {isGames && <Gamepad2 size={16} />}
+                                        {link.title}
+                                    </Link>
+                                );
+                            })}
                         </div>
                     </div>
 
