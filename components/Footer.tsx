@@ -21,8 +21,19 @@ export default function Footer() {
                 {/* Real Visit Counter */}
                 <VisitCounter />
 
-                <div className="text-gray-500 text-sm pt-4 border-t border-gray-800">
-                    © ২০২৬ ভোট-বেচো ডট কম | সর্বস্বত্ব সংরক্ষিত (নাও হতে পারে)।
+                <div className="text-gray-500 text-sm pt-4 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-2">
+                    <span>© ২০২৬ ভোট-বেচো ডট কম | সর্বস্বত্ব সংরক্ষিত (নাও হতে পারে)।</span>
+                    <span className="flex items-center gap-1">
+                        Developed by
+                        <a
+                            href="https://zahidhasantonmoy.vercel.app/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary hover:underline font-bold"
+                        >
+                            Zahid Hasan Tonmoy
+                        </a>
+                    </span>
                 </div>
             </div>
         </footer>
