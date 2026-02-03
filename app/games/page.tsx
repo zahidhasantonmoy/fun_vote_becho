@@ -13,6 +13,8 @@ import VvipProtocol from "@/components/VvipProtocol";
 import KursiGame from "@/components/KursiGame";
 import PoltiGame from "@/components/PoltiGame";
 import KhambaClimber from "@/components/KhambaClimber";
+import BiryaniRun from "@/components/BiryaniRun";
+import TableThappor from "@/components/TableThappor";
 
 export default function GamesPage() {
     return (
@@ -42,6 +44,15 @@ export default function GamesPage() {
                             <KhambaClimber />
                         </div>
                     </MotionWrapper>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <MotionWrapper delay={0.15}>
+                            <BiryaniRun />
+                        </MotionWrapper>
+                        <MotionWrapper delay={0.15}>
+                            <TableThappor />
+                        </MotionWrapper>
+                    </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <MotionWrapper delay={0.2}>
