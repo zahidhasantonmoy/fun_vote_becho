@@ -9,6 +9,13 @@ import Calculator from "@/components/Calculator";
 import Testimonials from "@/components/Testimonials";
 import ComplaintBox from "@/components/ComplaintBox";
 import Footer from "@/components/Footer";
+// Phase 3 Features
+import BhashonGenerator from "@/components/BhashonGenerator";
+import MoneyWhitener from "@/components/MoneyWhitener";
+import ChadaGoals from "@/components/ChadaGoals";
+import PoltiGame from "@/components/PoltiGame";
+import GoyebService from "@/components/GoyebService";
+import IDCardGenerator from "@/components/IDCardGenerator";
 
 export default function Home() {
   return (
@@ -19,12 +26,20 @@ export default function Home() {
       </div>
       <Hero />
       <Features />
-      <Products />
-      <SpinWheel />
-      <CandidateCompare />
-      <Calculator />
-      <Testimonials />
-      <ComplaintBox />
+      <div className="space-y-0 divide-y divide-gray-200 dark:divide-gray-800">
+        <Products />
+        <BhashonGenerator />
+        <SpinWheel />
+        <MoneyWhitener />
+        <CandidateCompare />
+        <ChadaGoals />
+        <Calculator />
+        <PoltiGame />
+        <Testimonials />
+        <GoyebService />
+        <IDCardGenerator />
+        <ComplaintBox />
+      </div>
       <Footer />
     </main>
   );
