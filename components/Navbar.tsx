@@ -24,10 +24,10 @@ export default function Navbar() {
     };
 
     const navLinks = [
-        { title: "হোম", href: "#" },
+        { title: "হোম", href: "#hero" }, // Changed to #hero for better UX
         { title: "প্যাকেজ সমূহ", href: "#packages" },
         { title: "দাম যাচাই", href: "#calculator" },
-        { title: "লগিন", href: "#" },
+        { title: "আইডি কার্ড", href: "#id-card" },
     ];
 
     return (

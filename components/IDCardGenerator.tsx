@@ -214,7 +214,7 @@ export default function IDCardGenerator() {
     };
 
     return (
-        <section className="py-20 bg-background border-t border-gray-100 dark:border-gray-800">
+        <section id="id-card" className="py-20 bg-background border-t border-gray-100 dark:border-gray-800">
             <div className="max-w-4xl mx-auto px-4 text-center">
                 <h2 className="text-3xl font-bold mb-4">অফিসিয়াল কার্ড জেনারেটর (ভি২)</h2>
                 <p className="text-gray-500 mb-12">এখন কিউআর কোড (QR Code) সহ! স্ক্যান করলেই ধরা।</p>
