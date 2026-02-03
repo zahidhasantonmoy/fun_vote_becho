@@ -12,9 +12,10 @@ import RaterVote from "@/components/RaterVote";
 import VvipProtocol from "@/components/VvipProtocol";
 import KursiGame from "@/components/KursiGame";
 import PoltiGame from "@/components/PoltiGame";
-import KhambaClimber from "@/components/KhambaClimber";
 import BiryaniRun from "@/components/BiryaniRun";
 import TableThappor from "@/components/TableThappor";
+import RickshawDrift from "@/components/RickshawDrift";
+import MoshaKiller from "@/components/MoshaKiller";
 
 export default function GamesPage() {
     return (
@@ -51,6 +52,15 @@ export default function GamesPage() {
                         </MotionWrapper>
                         <MotionWrapper delay={0.15}>
                             <TableThappor />
+                        </MotionWrapper>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <MotionWrapper delay={0.18}>
+                            <RickshawDrift />
+                        </MotionWrapper>
+                        <MotionWrapper delay={0.18}>
+                            <MoshaKiller />
                         </MotionWrapper>
                     </div>
 
