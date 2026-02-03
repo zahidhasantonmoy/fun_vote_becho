@@ -4,7 +4,7 @@ import { Wallet, TrendingUp } from "lucide-react";
 
 export default function Hero() {
     return (
-        <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <section id="hero" className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
             {/* Background Decor */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full z-[-1] opacity-10 dark:opacity-5">
                 <div className="absolute top-10 left-10 w-72 h-72 bg-primary rounded-full blur-[100px]" />
