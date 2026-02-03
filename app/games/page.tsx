@@ -12,6 +12,7 @@ import RaterVote from "@/components/RaterVote";
 import VvipProtocol from "@/components/VvipProtocol";
 import KursiGame from "@/components/KursiGame";
 import PoltiGame from "@/components/PoltiGame";
+import KhambaClimber from "@/components/KhambaClimber";
 import BiryaniRun from "@/components/BiryaniRun";
 import TableThappor from "@/components/TableThappor";
 import RickshawDrift from "@/components/RickshawDrift";
